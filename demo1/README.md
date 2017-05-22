@@ -49,3 +49,23 @@ renderer.render(sceen, camera,renderTarget, forceClear)
 
 渲染有两种方式： 实时渲染和离线渲染
 
+其中实时渲染就是对画面不停进行渲染
+
+```eg.
+function render() {
+  cube.rotation.x += .1
+  cube.rotation.y += .1
+  renderer.render(scene, camera)
+  requestAnimationFrame(render)
+}
+```
+
+其中所包含的`requestAnimationFrame`让浏览器再去执行一次参数中的函数
+
+7. 场景， 相机， 渲染器之间的关系
+
+THREE.js 中的场景是一个物体的容器，其中可以放入任意需要的角色，同时，角色自身也管理其在场景中的位置
+
+相机的作用就是面对场景，在其中去除合适的景进行拍摄
+
+渲染器就是将相机拍摄下来的图片，放到浏览器中去显示。
