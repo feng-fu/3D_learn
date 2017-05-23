@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>a Thin Line.</title>
+  <style>
+    #canvas_frame {
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      height: 600px;
+      background-color: #eee;
+    }
+  </style>
+</head>
+<body>
+  <div id="canvas_frame">
+
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r82/three.min.js"></script>
+  <script>
+    (function(){
+      var renderer,width, height,camera,scene,light,cube
+      function initThree(){
+        width = document.getElementById('canvas_frame').clientWidth
+        height = document.getElementById('canvas_frame').clientHeight
+        renderer = new THREE.WebGLRenderer({
+          antialias: true
+        })
+        renderer.setSize(width, height)
+        document.getElementById('canvas_frame').appendChild(renderer.domElement)
+        renderer.setClearColor(0xfff, 1.0);
+      }
+      function initCamera(){
+        camera = new THREE.PerspectiveCamera(45, width/height, 1, 10000)
+        camera.position.x = 0
+        camera.position.y = 1000
+        camera.position.z = 0
+        camera.up.x = 0
+        camera.up.y = 0
+        camera.up.z = 1
+        camera.lookAt({
+          x: 0,
+          y: 0,
+          z: 0
+        })
+      }
+      function initScene(){
+        scene = new THREE.Scene()
+      }
+      function initLight() {
+        light = new THREE.DirectionalLight(0xf00, 1.0, 0)
+        light.position.set(100, 100, 200)
+        scene.add(light)
+      }
+      function initObject() {
+        var geometry = new THREE.Geometry()
+        //  new 一个集合体，其中包含一个verices，用来存放点
+        // 一个colors， 用来对应定义颜色
+
+        var material = new THREE.LineBasicMaterial(
+          {vertexColors: true}
+        )
+        //  LineBasicMaterial 用来定义饿一种材质外观
+        // 其中可传入参数 @params
+        // Color: 线条颜色，默认0xfff
+        // LineWidth: 线条宽度,默认1
+        // Linecap: 线条两端外观，默认圆角端点
+        // Linejoin: 两个线条连接处外观，默认"round"， 表示圆角
+        // VertColors: 定义材质是否使用顶点颜色
+        // Fog: 定义材质颜色时候受全局雾效的影响
+        var color1 = new THREE.Color(0x444444),
+            color2 = new THREE.Color(0xff0000),
+            color3 = new THREE.Color(0x00ffff);
+        // 定义几种颜色
+        var p1 = new THREE.Vector3(-100, 0, 100);
+        var p2 = new THREE.Vector3(100, 0,-100);
+        var p3 = new THREE.Vector3(-100,-100, 0)
+        // 定义定点位置
+        geometry.vertices.push(p1, p2, p3)
+
+        geometry.colors.push(color1, color2, color3)
+
+        var line = new THREE.Line( geometry, material, THREE.LineSegments)
+        // 通过使用THREE.Line 类 来定义一条线
+        scene.add(line)
+      }
+      function start() {
+        initThree()
+        initCamera()
+        initScene()
+        initLight()
+        initObject()
+        renderer.clear()
+        renderer.render(scene, camera)
+      }
+      start()
+    })()
+  </script>
+</body>
+</html>
