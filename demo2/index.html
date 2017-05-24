@@ -75,17 +75,40 @@
             color2 = new THREE.Color(0xff0000),
             color3 = new THREE.Color(0x00ffff);
         // 定义几种颜色
-        var p1 = new THREE.Vector3(-100, 0, 100);
-        var p2 = new THREE.Vector3(100, 0,-100);
-        var p3 = new THREE.Vector3(-100,-100, 0)
+        var p1 = new THREE.Vector3(-500, 0, 0);
+        var p2 = new THREE.Vector3(500, 0, 0);
         // 定义定点位置
-        geometry.vertices.push(p1, p2, p3)
+        geometry.vertices.push(p1, p2)
 
-        geometry.colors.push(color1, color2, color3)
 
-        var line = new THREE.Line( geometry, material, THREE.LineSegments)
+        for(var i = 0;i <= 20;i++) {
+          var line = new THREE.Line(geometry, new THREE.LineBasicMaterial({
+            color: 0x000000,
+            opacity: .2
+          }))
+          line.position.z = ( i * 50 ) - 500
+          scene.add(line)
+          var line = new THREE.Line(geometry, new THREE.LineBasicMaterial({
+            color: 0x000000,
+            opacity: .2
+          }))
+          line.position.x = ( i * 50 ) - 500
+          line.rotation.y = 90 * Math.PI / 180
+          scene.add( line )
+        }
+
+        // geometry.colors.push(color1, color2, color3)
+
+        // var line = new THREE.Line( geometry, material, THREE.LineSegments)
         // 通过使用THREE.Line 类 来定义一条线
-        scene.add(line)
+        // scene.add(line)
+      }
+      function animate(){
+        renderer.clear()
+        renderer.render(scene, camera)
+        camera.position.x += 1
+        // 不断移动相机位置，实现动画效果
+        requestAnimationFrame(animate)
       }
       function start() {
         initThree()
@@ -93,8 +116,7 @@
         initScene()
         initLight()
         initObject()
-        renderer.clear()
-        renderer.render(scene, camera)
+        animate()
       }
       start()
     })()
